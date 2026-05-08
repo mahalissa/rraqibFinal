@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAQIB · Sign in</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: #e2e8f0;
+      background:
+        radial-gradient(1200px 600px at 80% -20%, rgba(37, 99, 235, 0.18), transparent 60%),
+        radial-gradient(900px 600px at -10% 110%, rgba(96, 165, 250, 0.10), transparent 55%),
+        #0b0d12;
+    }
+
+    main {
+      min-height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(420px, 100%);
+      background: rgba(26, 31, 46, 0.92);
+      border: 1px solid #1e293b;
+      border-radius: 14px;
+      padding: 32px 28px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 18px 48px -16px rgba(0, 0, 0, 0.6);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .brand-mark {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      display: grid; place-items: center;
+      font-weight: 800; font-size: 1.05rem; color: #0f1117;
+      box-shadow: 0 6px 18px -8px rgba(96, 165, 250, 0.7);
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      letter-spacing: 0.04em;
+      color: #f8fafc;
+    }
+
+    .sub {
+      color: #94a3b8;
+      font-size: 0.86rem;
+      margin: 6px 0 24px;
+    }
+
+    label {
+      display: block;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      background: #0f1117;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #e2e8f0;
+      padding: 11px 12px;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.20);
+    }
+
+    .field { margin-bottom: 16px; }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: transform 0.05s, box-shadow 0.15s, opacity 0.15s;
+    }
+
+    button:hover:not(:disabled) {
+      box-shadow: 0 6px 18px -6px rgba(37, 99, 235, 0.7);
+    }
+    button:active:not(:disabled) { transform: translateY(1px); }
+    button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .error {
+      margin-top: 14px;
+      background: rgba(220, 38, 38, 0.12);
+      border-left: 3px solid #dc2626;
+      color: #fca5a5;
+      font-size: 0.85rem;
+      border-radius: 4px;
+      padding: 8px 10px;
+      display: none;
+    }
+    .error.visible { display: block; }
+
+    footer {
+      text-align: center;
+      margin-top: 18px;
+      font-size: 0.74rem;
+      color: #475569;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <form class="card" id="loginForm" autocomplete="on">
+    <div class="brand">
+      <div class="brand-mark">R</div>
+      <h1>RAQIB</h1>
+    </div>
+    <p class="sub">Real-time traffic safety monitoring · admin sign in</p>
+
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" autocomplete="username" required />
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" autocomplete="current-password" required />
+    </div>
+
+    <button type="submit" id="submitBtn">Sign in</button>
+    <div class="error" id="errorMsg"></div>
+
+    <footer>
+      QMUL · Final Year Project 2025/26
+    </footer>
+  </form>
+</main>
+
+<script>
+const form    = document.getElementById('loginForm');
+const userEl  = document.getElementById('username');
+const passEl  = document.getElementById('password');
+const btn     = document.getElementById('submitBtn');
+const errEl   = document.getElementById('errorMsg');
+
+function showError(msg) {
+  errEl.textContent = msg;
+  errEl.classList.add('visible');
+}
+
+form.addEventListener('submit', async (ev) => {
+  ev.preventDefault();
+  errEl.classList.remove('visible');
+  btn.disabled = true;
+  btn.textContent = 'Signing in…';
+  try {
+    const r = await fetch('/login', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ username: userEl.value, password: passEl.value }),
+    });
+    if (r.ok) {
+      // Cookie is set; go to the app.
+      const next = new URLSearchParams(location.search).get('next') || '/';
+      location.href = next;
+      return;
+    }
+    let body = {};
+    try { body = await r.json(); } catch { /* non-JSON response */ }
+    if (r.status === 503) {
+      showError(body.hint || 'Server has no admin password configured.');
+    } else {
+      showError(body.error || `Sign-in failed (HTTP ${r.status}).`);
+    }
+  } catch (e) {
+    showError('Network error — is the RAQIB server running?');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Sign in';
+  }
+});
+
+// Auto-focus the first empty field on load.
+window.addEventListener('DOMContentLoaded', () => {
+  (userEl.value ? passEl : userEl).focus();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,602 @@
+[
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 0,
+    "model": "yolo11",
+    "vehicles": 3,
+    "pedestrians": 0,
+    "total": 3,
+    "latency_ms": 60.6
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 0,
+    "model": "rtdetrv2",
+    "vehicles": 6,
+    "pedestrians": 0,
+    "total": 6,
+    "latency_ms": 31.3
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 0,
+    "model": "fasterrcnn",
+    "vehicles": 3,
+    "pedestrians": 0,
+    "total": 3,
+    "latency_ms": 83.4
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 0,
+    "model": "visdrone",
+    "vehicles": 2,
+    "pedestrians": 0,
+    "total": 2,
+    "latency_ms": 34.2
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 1,
+    "model": "yolo11",
+    "vehicles": 2,
+    "pedestrians": 0,
+    "total": 2,
+    "latency_ms": 19.4
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 1,
+    "model": "rtdetrv2",
+    "vehicles": 3,
+    "pedestrians": 0,
+    "total": 3,
+    "latency_ms": 37.0
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 1,
+    "model": "fasterrcnn",
+    "vehicles": 3,
+    "pedestrians": 0,
+    "total": 3,
+    "latency_ms": 44.2
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 1,
+    "model": "visdrone",
+    "vehicles": 5,
+    "pedestrians": 1,
+    "total": 6,
+    "latency_ms": 14.0
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 2,
+    "model": "yolo11",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 16.7
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 2,
+    "model": "rtdetrv2",
+    "vehicles": 3,
+    "pedestrians": 0,
+    "total": 3,
+    "latency_ms": 35.3
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 2,
+    "model": "fasterrcnn",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 44.5
+  },
+  {
+    "camera": "Piccadilly Circus",
+    "camera_id": "JamCams_00001.07450",
+    "frame": 2,
+    "model": "visdrone",
+    "vehicles": 2,
+    "pedestrians": 3,
+    "total": 5,
+    "latency_ms": 14.4
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 0,
+    "model": "yolo11",
+    "vehicles": 0,
+    "pedestrians": 0,
+    "total": 0,
+    "latency_ms": 13.1
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 0,
+    "model": "rtdetrv2",
+    "vehicles": 0,
+    "pedestrians": 0,
+    "total": 0,
+    "latency_ms": 33.7
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 0,
+    "model": "fasterrcnn",
+    "vehicles": 0,
+    "pedestrians": 0,
+    "total": 0,
+    "latency_ms": 36.8
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 0,
+    "model": "visdrone",
+    "vehicles": 5,
+    "pedestrians": 0,
+    "total": 5,
+    "latency_ms": 11.1
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 1,
+    "model": "yolo11",
+    "vehicles": 0,
+    "pedestrians": 0,
+    "total": 0,
+    "latency_ms": 12.0
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 1,
+    "model": "rtdetrv2",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 30.5
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 1,
+    "model": "fasterrcnn",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 36.8
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 1,
+    "model": "visdrone",
+    "vehicles": 7,
+    "pedestrians": 0,
+    "total": 7,
+    "latency_ms": 10.8
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 2,
+    "model": "yolo11",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 15.0
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 2,
+    "model": "rtdetrv2",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 30.5
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 2,
+    "model": "fasterrcnn",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 38.7
+  },
+  {
+    "camera": "Trafalgar Rd/Greenwich Pk St",
+    "camera_id": "JamCams_00001.03105",
+    "frame": 2,
+    "model": "visdrone",
+    "vehicles": 7,
+    "pedestrians": 0,
+    "total": 7,
+    "latency_ms": 11.7
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 0,
+    "model": "yolo11",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 10.2
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 0,
+    "model": "rtdetrv2",
+    "vehicles": 5,
+    "pedestrians": 1,
+    "total": 6,
+    "latency_ms": 26.1
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 0,
+    "model": "fasterrcnn",
+    "vehicles": 4,
+    "pedestrians": 1,
+    "total": 5,
+    "latency_ms": 37.9
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 0,
+    "model": "visdrone",
+    "vehicles": 7,
+    "pedestrians": 4,
+    "total": 11,
+    "latency_ms": 9.7
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 1,
+    "model": "yolo11",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 12.5
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 1,
+    "model": "rtdetrv2",
+    "vehicles": 4,
+    "pedestrians": 1,
+    "total": 5,
+    "latency_ms": 28.8
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 1,
+    "model": "fasterrcnn",
+    "vehicles": 3,
+    "pedestrians": 1,
+    "total": 4,
+    "latency_ms": 38.8
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 1,
+    "model": "visdrone",
+    "vehicles": 9,
+    "pedestrians": 2,
+    "total": 11,
+    "latency_ms": 9.8
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 2,
+    "model": "yolo11",
+    "vehicles": 0,
+    "pedestrians": 0,
+    "total": 0,
+    "latency_ms": 11.4
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 2,
+    "model": "rtdetrv2",
+    "vehicles": 2,
+    "pedestrians": 1,
+    "total": 3,
+    "latency_ms": 27.9
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 2,
+    "model": "fasterrcnn",
+    "vehicles": 3,
+    "pedestrians": 1,
+    "total": 4,
+    "latency_ms": 37.3
+  },
+  {
+    "camera": "Marble Arch",
+    "camera_id": "JamCams_00001.08850",
+    "frame": 2,
+    "model": "visdrone",
+    "vehicles": 8,
+    "pedestrians": 2,
+    "total": 10,
+    "latency_ms": 11.5
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 0,
+    "model": "yolo11",
+    "vehicles": 3,
+    "pedestrians": 0,
+    "total": 3,
+    "latency_ms": 16.2
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 0,
+    "model": "rtdetrv2",
+    "vehicles": 6,
+    "pedestrians": 2,
+    "total": 8,
+    "latency_ms": 30.0
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 0,
+    "model": "fasterrcnn",
+    "vehicles": 6,
+    "pedestrians": 2,
+    "total": 8,
+    "latency_ms": 38.5
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 0,
+    "model": "visdrone",
+    "vehicles": 19,
+    "pedestrians": 1,
+    "total": 21,
+    "latency_ms": 9.5
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 1,
+    "model": "yolo11",
+    "vehicles": 4,
+    "pedestrians": 0,
+    "total": 4,
+    "latency_ms": 12.5
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 1,
+    "model": "rtdetrv2",
+    "vehicles": 7,
+    "pedestrians": 3,
+    "total": 10,
+    "latency_ms": 32.9
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 1,
+    "model": "fasterrcnn",
+    "vehicles": 9,
+    "pedestrians": 1,
+    "total": 10,
+    "latency_ms": 38.4
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 1,
+    "model": "visdrone",
+    "vehicles": 22,
+    "pedestrians": 1,
+    "total": 25,
+    "latency_ms": 8.7
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 2,
+    "model": "yolo11",
+    "vehicles": 4,
+    "pedestrians": 0,
+    "total": 4,
+    "latency_ms": 15.5
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 2,
+    "model": "rtdetrv2",
+    "vehicles": 7,
+    "pedestrians": 1,
+    "total": 8,
+    "latency_ms": 27.4
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 2,
+    "model": "fasterrcnn",
+    "vehicles": 8,
+    "pedestrians": 1,
+    "total": 9,
+    "latency_ms": 39.8
+  },
+  {
+    "camera": "Elephant & Castle/Walworth Road",
+    "camera_id": "JamCams_00001.03604",
+    "frame": 2,
+    "model": "visdrone",
+    "vehicles": 22,
+    "pedestrians": 1,
+    "total": 23,
+    "latency_ms": 10.5
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 0,
+    "model": "yolo11",
+    "vehicles": 0,
+    "pedestrians": 0,
+    "total": 0,
+    "latency_ms": 9.5
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 0,
+    "model": "rtdetrv2",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 32.5
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 0,
+    "model": "fasterrcnn",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 37.9
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 0,
+    "model": "visdrone",
+    "vehicles": 14,
+    "pedestrians": 0,
+    "total": 14,
+    "latency_ms": 9.3
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 1,
+    "model": "yolo11",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 12.0
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 1,
+    "model": "rtdetrv2",
+    "vehicles": 2,
+    "pedestrians": 0,
+    "total": 2,
+    "latency_ms": 28.3
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 1,
+    "model": "fasterrcnn",
+    "vehicles": 2,
+    "pedestrians": 0,
+    "total": 2,
+    "latency_ms": 37.3
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 1,
+    "model": "visdrone",
+    "vehicles": 10,
+    "pedestrians": 0,
+    "total": 10,
+    "latency_ms": 10.0
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 2,
+    "model": "yolo11",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 11.5
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 2,
+    "model": "rtdetrv2",
+    "vehicles": 1,
+    "pedestrians": 0,
+    "total": 1,
+    "latency_ms": 25.3
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 2,
+    "model": "fasterrcnn",
+    "vehicles": 2,
+    "pedestrians": 0,
+    "total": 2,
+    "latency_ms": 39.7
+  },
+  {
+    "camera": "Vauxhall Brd Rd/Drummond Gt",
+    "camera_id": "JamCams_00001.04328",
+    "frame": 2,
+    "model": "visdrone",
+    "vehicles": 11,
+    "pedestrians": 0,
+    "total": 11,
+    "latency_ms": 9.5
+  }
+]

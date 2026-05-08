@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAQIB – Road Safety Monitoring</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: #e2e8f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background:
+        radial-gradient(1000px 400px at 80% -20%, rgba(37, 99, 235, 0.10), transparent 60%),
+        radial-gradient(700px 400px at -10% 110%, rgba(96, 165, 250, 0.06), transparent 55%),
+        #0b0d12;
+    }
+
+    header {
+      background: linear-gradient(135deg, rgba(26,31,46,0.95), rgba(13,27,42,0.95));
+      border-bottom: 1px solid rgba(96, 165, 250, 0.18);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .brand-mark {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      display: grid; place-items: center;
+      font-weight: 800; font-size: 1.05rem; color: #0f1117;
+      box-shadow: 0 6px 18px -8px rgba(96, 165, 250, 0.7);
+    }
+
+    .brand-text h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f8fafc;
+      letter-spacing: 0.06em;
+      line-height: 1.0;
+    }
+
+    .brand-text p {
+      font-size: 0.8rem;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
+    .header-spacer { flex: 1; }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-id {
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+
+    .user-id::before {
+      content: "👤 ";
+      filter: grayscale(0.5);
+    }
+
+    .user-logout {
+      padding: 6px 12px !important;
+      font-size: 0.8rem !important;
+    }
+
+    .badge {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: white;
+      font-size: 0.7rem;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      box-shadow: 0 4px 14px -6px rgba(37, 99, 235, 0.7);
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 16px;
+      padding: 16px;
+      flex: 1;
+    }
+
+    @media (max-width: 900px) {
+      main { grid-template-columns: 1fr; }
+    }
+
+    /* ── Video panel ── */
+    .video-panel {
+      position: relative;
+      background: #1a1f2e;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+    }
+
+    #videoEl {
+      width: 100%;
+      display: block;
+    }
+
+    #overlayCanvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .video-controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 9px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+
+    .btn-danger { background: #dc2626; color: white; }
+    .btn-danger:hover:not(:disabled) { background: #b91c1c; }
+
+    .btn-secondary { background: #334155; color: #e2e8f0; }
+    .btn-secondary:hover:not(:disabled) { background: #475569; }
+
+    .btn-clip {
+      background: linear-gradient(135deg, #b45309, #92400e);
+      color: white;
+      padding: 9px 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .btn-clip:hover:not(:disabled) {
+      box-shadow: 0 4px 14px -6px rgba(180, 83, 9, 0.7);
+    }
+    .btn-clip.recording {
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+      animation: clipPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes clipPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.55); }
+      50%      { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+    }
+
+    #fileInput { display: none; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card {
+      background: rgba(26, 31, 46, 0.92);
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 8px 24px -16px rgba(0, 0, 0, 0.6);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .card:hover { border-color: rgba(96, 165, 250, 0.25); }
+
+    .card h3 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-tiny {
+      background: transparent;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      border-radius: 6px;
+      width: 22px; height: 22px;
+      padding: 0;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .btn-tiny:hover { color: #e2e8f0; border-color: #60a5fa; }
+
+    /* ── Violations panel ── */
+    .violation-toast {
+      background: linear-gradient(135deg, rgba(220,38,38,0.18), rgba(220,38,38,0.08));
+      border-left: 3px solid #dc2626;
+      color: #fca5a5;
+      font-size: 0.8rem;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      animation: toastIn 0.25s ease-out;
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .violation-tile {
+      display: flex;
+      gap: 10px;
+      padding: 8px;
+      background: #0f1117;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .violation-tile:hover {
+      border-color: #60a5fa;
+      transform: translateY(-1px);
+    }
+    .violation-tile img {
+      width: 80px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+      flex-shrink: 0;
+      background: #1e293b;
+    }
+    .violation-tile .meta {
+      font-size: 0.74rem;
+      color: #94a3b8;
+      flex: 1;
+      min-width: 0;
+    }
+    .violation-tile .meta .name {
+      color: #e2e8f0;
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .violation-tile .meta .when { color: #64748b; margin-top: 2px; }
+    .violation-tile .meta .thw {
+      color: #fca5a5;
+      margin-top: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .video-modal {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.86);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      animation: modalIn 0.18s ease-out;
+    }
+    .video-modal.open { display: flex; }
+    @keyframes modalIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .video-modal-inner {
+      background: #1a1f2e;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      padding: 16px;
+      max-width: 90vw;
+      max-height: 92vh;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .video-modal video {
+      max-width: 80vw;
+      max-height: 70vh;
+      background: #000;
+      border-radius: 6px;
+    }
+    .video-modal-meta {
+      color: #cbd5e1;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+    .video-modal-close {
+      background: #334155;
+      color: #e2e8f0;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .video-modal-close:hover { background: #475569; }
+
+    /* ── Connection status ── */
+    .status-dot {
+      display: inline-block;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+
+    .status-dot.connected    { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+    .status-dot.disconnected { background: #ef4444; }
+    .status-dot.connecting   { background: #f59e0b; animation: pulse 1s infinite; }
+
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.3} }
+
+    #statusText { font-size: 0.88rem; }
+
+    /* ── Metrics ── */
+    .metric-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .metric {
+      background: #0f1117;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .metric .val {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #60a5fa;
+    }
+
+    .metric .lbl {
+      font-size: 0.7rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── Detections list ── */
+    #detectionsList {
+      list-style: none;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 0.82rem;
+    }
+
+    #detectionsList li {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid #1e293b;
+      color: #cbd5e1;
+    }
+
+    #detectionsList li:last-child { border-bottom: none; }
+
+    .conf-badge {
+      background: #1e293b;
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    /* ── Unsafe behaviour alerts ── */
+    #alertsList { font-size: 0.82rem; }
+
+    .alert-item {
+      background: rgba(220, 38, 38, 0.15);
+      border-left: 3px solid #dc2626;
+      border-radius: 4px;
+      padding: 7px 10px;
+      margin-bottom: 6px;
+      color: #fca5a5;
+    }
+
+    .alert-item.clear {
+      background: rgba(34, 197, 94, 0.1);
+      border-color: #22c55e;
+      color: #86efac;
+    }
+
+    /* ── Lane info ── */
+    .lane-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #0f1117;
+      border-radius: 6px;
+      padding: 5px 10px;
+      margin: 3px;
+      font-size: 0.8rem;
+    }
+
+    .lane-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+
+    /* ── Server URL input ── */
+    .url-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      background: #0f1117;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: #e2e8f0;
+      padding: 7px 10px;
+      font-size: 0.85rem;
+    }
+
+    input[type="text"]:focus { outline: none; border-color: #2563eb; }
+
+    /* ── FPS slider ── */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.82rem;
+      color: #94a3b8;
+    }
+
+    input[type="range"] { flex: 1; }
+
+    footer {
+      text-align: center;
+      padding: 12px;
+      font-size: 0.75rem;
+      color: #475569;
+      border-top: 1px solid #1e293b;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand-mark" aria-hidden="true">R</div>
+  <div class="brand-text">
+    <h1>RAQIB</h1>
+    <p>Real-time traffic safety monitoring</p>
+  </div>
+  <span class="badge">LIVE</span>
+  <div class="header-spacer"></div>
+  <div class="user-menu">
+    <span class="user-id" id="userId" title="Logged-in admin"></span>
+    <button class="btn-secondary user-logout" id="btnLogout" title="Log out">Sign out</button>
+  </div>
+</header>
+
+<main>
+  <!-- ── Left: video panel ── -->
+  <section>
+    <div class="video-panel">
+      <video id="videoEl" autoplay muted playsinline></video>
+      <canvas id="overlayCanvas"></canvas>
+    </div>
+
+    <div class="video-controls">
+      <button class="btn-primary"  id="btnCam">📷 Use Webcam</button>
+      <button class="btn-secondary" id="btnFile">📁 Upload Video</button>
+      <button class="btn-secondary" id="btnTfl">🚦 TfL Camera</button>
+      <button class="btn-clip"     id="btnClipNow" disabled title="Save the last 3 s + next 3 s of the live stream as a clip">📹 Clip now</button>
+      <button class="btn-danger"   id="btnStop" disabled>⏹ Stop</button>
+      <input  type="file" id="fileInput" accept="video/*" />
+    </div>
+
+    <div id="camPicker" style="display:none;margin-top:10px;background:#1a1f2e;border:1px solid #1e293b;border-radius:10px;padding:12px;">
+      <div style="font-size:0.78rem;color:#94a3b8;margin-bottom:10px;font-weight:600;letter-spacing:0.05em;">SELECT CAMERA</div>
+      <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
+        <button class="btn-secondary" id="btnFrontCam" style="flex:1;min-width:120px;">🤳 Front Camera</button>
+        <button class="btn-secondary" id="btnRearCam"  style="flex:1;min-width:120px;">📷 Rear / External</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <select id="camDeviceSelect" style="flex:1;background:#0f1117;border:1px solid #334155;border-radius:6px;color:#e2e8f0;padding:7px 10px;font-size:0.85rem;">
+          <option value="">— choose specific device —</option>
+        </select>
+        <button class="btn-primary" id="btnStartSpecificCam" style="white-space:nowrap;">Start</button>
+      </div>
+      <div id="camPickerHint" style="font-size:0.74rem;color:#475569;margin-top:8px;">Device names appear after the first permission grant.</div>
+    </div>
+
+    <div id="tflPicker" style="display:none;margin-top:10px;background:#1a1f2e;border:1px solid #1e293b;border-radius:10px;padding:12px;">
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap;">
+        <input type="search" id="tflSearch" placeholder="Search TfL cameras (e.g. Piccadilly)…" style="flex:1;min-width:160px;background:#0f1117;border:1px solid #334155;border-radius:6px;color:#e2e8f0;padding:7px 10px;font-size:0.85rem;" />
+        <span id="tflCount" style="font-size:0.78rem;color:#64748b;">…</span>
+        <span id="tflLive"  class="badge" style="background:#475569;" title="Pusher subscription status">●</span>
+      </div>
+      <div id="tflNowPlaying" style="display:none;font-size:0.78rem;color:#86efac;margin-bottom:8px;padding:6px 8px;background:rgba(34,197,94,0.10);border-left:3px solid #22c55e;border-radius:4px;"></div>
+      <div id="tflGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;max-height:340px;overflow-y:auto;padding:4px;background:#0f1117;border:1px solid #334155;border-radius:6px;"></div>
+    </div>
+  </section>
+
+  <!-- ── Right: sidebar ── -->
+  <aside class="sidebar">
+
+    <!-- Connection card -->
+    <div class="card">
+      <h3>Server Connection</h3>
+      <div class="url-row" style="margin-bottom:10px;">
+        <input type="text" id="serverUrl" value="" placeholder="auto" />
+        <button class="btn-primary" id="btnConnect" style="white-space:nowrap;">Connect</button>
+      </div>
+      <div>
+        <span class="status-dot disconnected" id="statusDot"></span>
+        <span id="statusText">Disconnected</span>
+      </div>
+    </div>
+
+    <!-- Settings card -->
+    <div class="card">
+      <h3>Settings</h3>
+      <div class="slider-row" style="margin-bottom:10px;">
+        <span>Target FPS</span>
+        <input type="range" id="fpsSlider" min="1" max="30" value="10" />
+        <span id="fpsLabel">10</span>
+      </div>
+      <div class="model-row" style="display:flex;flex-direction:column;gap:8px;">
+        <label style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#94a3b8;">
+          <span style="min-width:70px;">Vehicle</span>
+          <select id="vehicleModel" style="flex:1;background:#0f1117;border:1px solid #334155;border-radius:6px;color:#e2e8f0;padding:6px 8px;font-size:0.85rem;">
+            <option value="">Loading…</option>
+          </select>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#94a3b8;">
+          <span style="min-width:70px;">Lane</span>
+          <select id="laneModel" style="flex:1;background:#0f1117;border:1px solid #334155;border-radius:6px;color:#e2e8f0;padding:6px 8px;font-size:0.85rem;">
+            <option value="">Loading…</option>
+          </select>
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#94a3b8;">
+          <span style="min-width:70px;">Camera</span>
+          <select id="cameraPerspective" style="flex:1;background:#0f1117;border:1px solid #334155;border-radius:6px;color:#e2e8f0;padding:6px 8px;font-size:0.85rem;">
+            <option value="">Loading…</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <!-- Metrics card -->
+    <div class="card">
+      <h3>Live Metrics</h3>
+      <div class="metric-grid">
+        <div class="metric">
+          <div class="val" id="metricFPS">–</div>
+          <div class="lbl">FPS</div>
+        </div>
+        <div class="metric">
+          <div class="val" id="metricLatency">–</div>
+          <div class="lbl">Latency (ms)</div>
+        </div>
+        <div class="metric">
+          <div class="val" id="metricVehicles">–</div>
+          <div class="lbl">Vehicles</div>
+        </div>
+        <div class="metric">
+          <div class="val" id="metricLanes">–</div>
+          <div class="lbl">Lanes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lane info -->
+    <div class="card">
+      <h3>Lane Detection</h3>
+      <div id="laneInfo" style="font-size:0.82rem;color:#64748b;">Awaiting stream…</div>
+    </div>
+
+    <!-- Detections -->
+    <div class="card">
+      <h3>Detected Objects</h3>
+      <ul id="detectionsList"><li style="color:#475569;">No detections yet</li></ul>
+    </div>
+
+    <!-- Alerts -->
+    <div class="card">
+      <h3>⚠️ Safety Alerts</h3>
+      <div id="alertsList">
+        <div class="alert-item clear">No unsafe behaviours detected</div>
+      </div>
+    </div>
+
+    <!-- Violation clips -->
+    <div class="card">
+      <h3>
+        Saved Violations
+        <button class="btn-tiny" id="btnRefreshViolations" title="Refresh list">↻</button>
+      </h3>
+      <div id="violationsToast" class="violation-toast" style="display:none;"></div>
+      <div id="violationsList" style="display:flex;flex-direction:column;gap:8px;max-height:340px;overflow-y:auto;">
+        <div style="font-size:0.82rem;color:#64748b;">No clips saved yet</div>
+      </div>
+    </div>
+
+  </aside>
+</main>
+
+<footer>
+  RAQIB · YOLO11 / Faster R-CNN / VisDrone · YOLOPv2 · QMUL Final Year Project 2025/26
+</footer>
+
+<!-- Modal for playing back saved violation clips -->
+<div class="video-modal" id="violationModal" role="dialog" aria-hidden="true">
+  <div class="video-modal-inner">
+    <video id="violationVideo" controls autoplay></video>
+    <div class="video-modal-meta">
+      <span id="violationMetaText">—</span>
+      <button class="video-modal-close" id="violationCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+<script>
+// ════════════════════════════════════════════════════════════════════
+//  RAQIB Web Client
+//  Streams video frames to the RAQIB server over WebSocket and renders
+//  detection overlays on a canvas in real time.
+// ════════════════════════════════════════════════════════════════════
+
+const videoEl      = document.getElementById('videoEl');
+const canvas       = document.getElementById('overlayCanvas');
+const ctx          = canvas.getContext('2d');
+
+const btnCam       = document.getElementById('btnCam');
+const btnFile      = document.getElementById('btnFile');
+const btnStop      = document.getElementById('btnStop');
+const btnTfl       = document.getElementById('btnTfl');
+const btnClipNow   = document.getElementById('btnClipNow');
+const btnConnect   = document.getElementById('btnConnect');
+const fileInput    = document.getElementById('fileInput');
+const tflPicker      = document.getElementById('tflPicker');
+const tflSearch      = document.getElementById('tflSearch');
+const tflGrid        = document.getElementById('tflGrid');
+const tflCount       = document.getElementById('tflCount');
+const tflLive        = document.getElementById('tflLive');
+const tflNowPlaying  = document.getElementById('tflNowPlaying');
+
+const userIdEl       = document.getElementById('userId');
+const btnLogout      = document.getElementById('btnLogout');
+
+const violationsListEl = document.getElementById('violationsList');
+const violationsToast  = document.getElementById('violationsToast');
+const btnRefreshVio    = document.getElementById('btnRefreshViolations');
+const violationModal   = document.getElementById('violationModal');
+const violationVideoEl = document.getElementById('violationVideo');
+const violationMetaText = document.getElementById('violationMetaText');
+const violationCloseBtn = document.getElementById('violationCloseBtn');
+const serverUrlEl  = document.getElementById('serverUrl');
+const fpsSlider    = document.getElementById('fpsSlider');
+const fpsLabel     = document.getElementById('fpsLabel');
+const vehicleModelEl  = document.getElementById('vehicleModel');
+const laneModelEl     = document.getElementById('laneModel');
+const cameraPerspectiveEl = document.getElementById('cameraPerspective');
+const statusDot    = document.getElementById('statusDot');
+const statusText   = document.getElementById('statusText');
+
+// Metrics elements
+const metricFPS      = document.getElementById('metricFPS');
+const metricLatency  = document.getElementById('metricLatency');
+const metricVehicles = document.getElementById('metricVehicles');
+const metricLanes    = document.getElementById('metricLanes');
+const detList        = document.getElementById('detectionsList');
+const alertsList     = document.getElementById('alertsList');
+const laneInfo       = document.getElementById('laneInfo');
+
+// ── State ────────────────────────────────────────────────────────────
+let ws             = null;
+let streamActive   = false;
+let frameId        = 0;
+let sendInterval   = null;
+let latestResult   = null;
+let awaitingResponse = false;   // single-inflight backpressure
+let frameCount     = 0;
+let fpsTimer       = performance.now();
+let targetFPS      = 10;
+
+// ── Colour map ────────────────────────────────────────────────────────
+const COLOURS = {
+  car:        '#22c55e',
+  motorcycle: '#f97316',
+  bus:        '#ef4444',
+  truck:      '#f59e0b',
+  bicycle:    '#06b6d4',
+  person:     '#a855f7',
+};
+
+const LANE_COLOURS = ['#22c55e', '#f97316', '#3b82f6', '#ef4444'];
+
+// ── FPS slider ───────────────────────────────────────────────────────
+fpsSlider.addEventListener('input', () => {
+  targetFPS = parseInt(fpsSlider.value);
+  fpsLabel.textContent = targetFPS;
+  if (sendInterval) restartSendLoop();
+});
+
+// ── WebSocket connection ──────────────────────────────────────────────
+function setStatus(state) {
+  statusDot.className = 'status-dot ' + state;
+  const labels = { connected: 'Connected', disconnected: 'Disconnected', connecting: 'Connecting…' };
+  statusText.textContent = labels[state] || state;
+}
+
+btnConnect.addEventListener('click', () => {
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.close();
+    return;
+  }
+  connectWebSocket();
+});
+
+function _resolveWsUrl() {
+  const v = serverUrlEl.value.trim();
+  if (v) return v;
+  // Auto: use the same host/port the page is served from. This is the
+  // norm for the deployed RAQIB stack (login + WS + REST all on the
+  // FastAPI server) and avoids a fragile localhost:8000 default that
+  // breaks behind reverse proxies.
+  const proto = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${proto}//${location.host}/ws/stream`;
+}
+
+function _resolveHttpOrigin() {
+  // Used by code that hits sibling endpoints (/tfl/cameras, /tfl/config,
+  // /tfl/proxy/...). Mirrors _resolveWsUrl's auto-detection.
+  const v = serverUrlEl.value.trim();
+  if (v) return v.replace(/^ws/, 'http').replace(/\/ws\/stream$/, '');
+  return location.origin;
+}
+
+function connectWebSocket() {
+  const url = _resolveWsUrl();
+  setStatus('connecting');
+  ws = new WebSocket(url);
+
+  ws.onopen = () => {
+    setStatus('connected');
+    btnConnect.textContent = 'Disconnect';
+    if (streamActive) startSendLoop();
+  };
+
+  ws.onmessage = (ev) => {
+    try {
+      latestResult = JSON.parse(ev.data);
+      awaitingResponse = false;
+      updateUI(latestResult);
+      // Sync the Clip-Now button's recording state with the server's
+      // authoritative answer. The server sets `recording` true while
+      // any clip — automatic or manual — is in progress and false once
+      // it has flushed.
+      if (typeof latestResult?.recording === 'boolean') {
+        setRecordingUI(latestResult.recording);
+      }
+      // Server flushes a clip a few seconds after a violation; this field
+      // appears in the response that completes the post-window. Trigger
+      // a fetch so the gallery picks up the new entry promptly.
+      if (latestResult && latestResult.saved_clip_id) {
+        fetchViolations(true);
+      }
+    } catch(e) { console.error('Parse error', e); awaitingResponse = false; }
+  };
+
+  ws.onclose = () => {
+    setStatus('disconnected');
+    btnConnect.textContent = 'Connect';
+    stopSendLoop();
+  };
+
+  ws.onerror = (e) => {
+    console.error('WS error', e);
+    setStatus('disconnected');
+  };
+}
+
+// ── Media sources ────────────────────────────────────────────────────
+// ── Camera picker ────────────────────────────────────────────────────
+const camPicker          = document.getElementById('camPicker');
+const camDeviceSelect    = document.getElementById('camDeviceSelect');
+const btnFrontCam        = document.getElementById('btnFrontCam');
+const btnRearCam         = document.getElementById('btnRearCam');
+const btnStartSpecificCam = document.getElementById('btnStartSpecificCam');
+const camPickerHint      = document.getElementById('camPickerHint');
+
+async function _populateCamDevices() {
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const vids = devices.filter(d => d.kind === 'videoinput');
+    const hasLabels = vids.some(d => d.label);
+    camDeviceSelect.innerHTML =
+      '<option value="">— choose specific device —</option>' +
+      vids.map((d, i) =>
+        `<option value="${d.deviceId}">${d.label || 'Camera ' + (i + 1)}</option>`
+      ).join('');
+    if (hasLabels) camPickerHint.style.display = 'none';
+  } catch (e) { /* permission not yet granted; labels appear after first getUserMedia */ }
+}
+
+async function _startCam(constraints) {
+  try {
+    if (videoEl.srcObject) {
+      videoEl.srcObject.getTracks().forEach(t => t.stop());
+      videoEl.srcObject = null;
+    }
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    cameraSource = null;
+    tflSelected = null;
+    tflUpdateNowPlaying();
+    videoEl.srcObject = stream;
+    videoEl.src = '';
+    await videoEl.play();
+    camPicker.style.display = 'none';
+    activateStream();
+    // Refresh device list now that permission is granted so labels appear.
+    _populateCamDevices();
+  } catch (e) {
+    alert('Camera error: ' + (e.message || e.name || e));
+  }
+}
+
+btnFrontCam.addEventListener('click', () =>
+  _startCam({ video: { facingMode: 'user' } })
+);
+
+btnRearCam.addEventListener('click', () =>
+  _startCam({ video: { facingMode: 'environment' } })
+);
+
+btnStartSpecificCam.addEventListener('click', () => {
+  const id = camDeviceSelect.value;
+  _startCam({ video: id ? { deviceId: { exact: id } } : true });
+});
+
+btnCam.addEventListener('click', async () => {
+  if (!navigator.mediaDevices?.getUserMedia) {
+    alert(
+      'Camera access is not available.\n\n' +
+      'Browsers require a secure context (HTTPS or localhost) to access the camera.\n\n' +
+      'If you are connecting from another device, open the page over HTTPS, ' +
+      'or use "Upload Video" to analyse a saved clip instead.'
+    );
+    return;
+  }
+  // Toggle the picker; hide TfL picker if open.
+  const show = camPicker.style.display === 'none';
+  camPicker.style.display  = show ? 'block' : 'none';
+  if (show) {
+    tflPicker.style.display = 'none';
+    _populateCamDevices();  // populate labels if permission was already granted
+  }
+});
+
+btnFile.addEventListener('click', () => fileInput.click());
+
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+  cameraSource = null;       // user-uploaded clip — no caption filter
+  tflSelected = null;
+  tflUpdateNowPlaying();
+  if (videoEl.srcObject) {
+    videoEl.srcObject.getTracks().forEach(t => t.stop());
+    videoEl.srcObject = null;
+  }
+  videoEl.src = URL.createObjectURL(file);
+  videoEl.loop = true;
+  videoEl.play();
+  activateStream();
+});
+
+btnStop.addEventListener('click', stopStream);
+
+// ── Manual "Clip now" — bypass cooldown, save 3 s before + 3 s after ──
+btnClipNow.addEventListener('click', () => {
+  if (!streamActive || !ws || ws.readyState !== WebSocket.OPEN) return;
+  pendingManualClip = true;
+  // Optimistic UI: immediately show the recording state. The server's
+  // next response carries `recording: true` which keeps it lit until the
+  // post-window flushes; the saved_clip_id field then triggers the
+  // gallery refresh and clears the state via setRecordingUI(false).
+  setRecordingUI(true);
+  // Toast feedback so the click feels acknowledged.
+  if (violationsToast) {
+    violationsToast.textContent = 'Recording manual clip — capturing 3 s before + 3 s after…';
+    violationsToast.style.display = 'block';
+    setTimeout(() => { violationsToast.style.display = 'none'; }, 4000);
+  }
+});
+
+function setRecordingUI(on) {
+  if (on) {
+    btnClipNow.classList.add('recording');
+    btnClipNow.textContent = '🔴 Recording…';
+  } else {
+    btnClipNow.classList.remove('recording');
+    btnClipNow.textContent = '📹 Clip now';
+  }
+}
+
+function activateStream() {
+  streamActive = true;
+  btnStop.disabled = false;
+  btnCam.disabled  = true;
+  btnFile.disabled = true;
+  if (btnTfl)     btnTfl.disabled     = true;
+  if (btnClipNow) btnClipNow.disabled = false;
+  if (ws && ws.readyState === WebSocket.OPEN) startSendLoop();
+}
+
+function stopStream() {
+  streamActive = false;
+  cameraSource = null;
+  btnStop.disabled = true;
+  btnCam.disabled  = false;
+  btnFile.disabled = false;
+  if (btnTfl)     btnTfl.disabled     = false;
+  if (btnClipNow) btnClipNow.disabled = true;
+  if (camPicker)  camPicker.style.display  = 'none';
+  setRecordingUI(false);
+  stopSendLoop();
+  if (videoEl.srcObject) {
+    videoEl.srcObject.getTracks().forEach(t => t.stop());
+    videoEl.srcObject = null;
+  }
+  videoEl.src = '';
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// ── TfL JamCams (live London traffic cameras via Pusher) ─────────────
+let tflCameras   = [];          // full list from /tfl/cameras
+let tflFiltered  = [];          // current search-filtered subset
+let tflSelected  = null;        // currently-playing camera object
+let tflPusher    = null;        // Pusher.Pusher instance once subscribed
+let cameraSource = null;        // "tfl" when streaming a TfL clip; null otherwise
+let pendingManualClip = false;  // set true when the user clicks "Clip now"; cleared
+                                // after the next outgoing frame includes the flag
+
+function tflRender() {
+  // Render thumbnail tiles. Snapshot JPGs are tiny (a few KB each) and
+  // browsers de-dupe + cache by URL, so loading 200 of them is cheap.
+  // We add `loading="lazy"` so off-screen tiles only fetch on scroll.
+  tflGrid.innerHTML = tflFiltered.map((cam, idx) => {
+    const sel = tflSelected && cam.id === tflSelected.id;
+    const thumb = cam.image_url
+      ? `<img loading="lazy" src="${cam.image_url}" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;background:#1e293b;display:block;" onerror="this.style.visibility='hidden';">`
+      : `<div style="width:100%;aspect-ratio:4/3;background:#1e293b;"></div>`;
+    return `
+      <div data-idx="${idx}" class="tfl-tile" style="cursor:pointer;border-radius:6px;overflow:hidden;background:#1a1f2e;border:2px solid ${sel ? '#22c55e' : 'transparent'};transition:border-color 0.15s;">
+        ${thumb}
+        <div style="padding:6px 8px;font-size:0.74rem;color:#cbd5e1;line-height:1.2;">
+          <div style="font-weight:600;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${cam.name}">${cam.name}</div>
+          ${cam.view ? `<div style="color:#64748b;margin-top:2px;">view: ${cam.view}</div>` : ''}
+        </div>
+      </div>`;
+  }).join('');
+  tflCount.textContent = `${tflFiltered.length}/${tflCameras.length} cams`;
+}
+
+function tflUpdateNowPlaying() {
+  if (!tflSelected) {
+    tflNowPlaying.style.display = 'none';
+    return;
+  }
+  tflNowPlaying.style.display = 'block';
+  tflNowPlaying.innerHTML =
+    `▶ <strong>${tflSelected.name}</strong>` +
+    (tflSelected.view ? ` <span style="color:#64748b;">(${tflSelected.view})</span>` : '');
+}
+
+function tflFilter(q) {
+  q = (q || '').trim().toLowerCase();
+  // No cap — IMG `loading="lazy"` means off-screen thumbnails don't fetch
+  // until they scroll into view, so all 880 cameras can sit in the DOM
+  // without swamping the network.
+  tflFiltered = q
+    ? tflCameras.filter(c => (c.name || '').toLowerCase().includes(q))
+    : tflCameras;
+  tflRender();
+}
+
+async function tflLoadList() {
+  try {
+    const httpOrigin = _resolveHttpOrigin();
+    const r = await fetch(httpOrigin + '/tfl/cameras');
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const data = await r.json();
+    tflCameras = (data.cameras || []).filter(c => c.available && c.video_url);
+    tflFilter(tflSearch.value);
+  } catch (e) {
+    console.warn('TfL list load failed:', e);
+    tflCount.textContent = 'load failed';
+  }
+}
+
+function tflProxyUrl(cam) {
+  // Route TfL clips through the RAQIB server so the <video> element loads
+  // them same-origin. TfL's S3 bucket sends no Access-Control-Allow-Origin
+  // header, so a direct cross-origin video would taint the canvas and
+  // captureAndSend()'s toDataURL() would throw — meaning no frames ever
+  // reach the detection server (the symptom the user reported as "no
+  // overlays on TfL feeds").
+  const httpOrigin = _resolveHttpOrigin();
+  return `${httpOrigin}/tfl/proxy/${cam.short_id}.mp4?_=${Date.now()}`;
+}
+
+async function tflPlay(cam) {
+  tflSelected = cam;
+  cameraSource = 'tfl';   // enables server-side caption-band suppression
+  if (videoEl.srcObject) {
+    videoEl.srcObject.getTracks().forEach(t => t.stop());
+    videoEl.srcObject = null;
+  }
+  // TfL cameras are pole-mounted CCTV — switch the detector + perspective
+  // to the configuration that's actually trained / designed for that view.
+  // The user can override afterwards from the dropdowns.
+  if (cameraPerspectiveEl) {
+    const opt = [...cameraPerspectiveEl.options].find(o => o.value === 'traffic');
+    if (opt) cameraPerspectiveEl.value = 'traffic';
+  }
+  if (vehicleModelEl) {
+    const opt = [...vehicleModelEl.options].find(o => o.value === 'visdrone');
+    if (opt) vehicleModelEl.value = 'visdrone';
+  }
+  videoEl.src = tflProxyUrl(cam);
+  videoEl.loop = true;
+  videoEl.muted = true;
+  try { await videoEl.play(); } catch (e) { console.warn('TfL play() rejected:', e); }
+  tflUpdateNowPlaying();
+  tflRender();          // re-render so the green border tracks the new selection
+  activateStream();
+}
+
+async function tflSubscribePusher() {
+  if (tflPusher) return;
+  try {
+    const httpOrigin = _resolveHttpOrigin();
+    const r = await fetch(httpOrigin + '/tfl/config');
+    if (!r.ok) return;
+    const cfg = await r.json();
+    if (!cfg.enabled || !cfg.key || typeof Pusher === 'undefined') {
+      tflLive.style.background = '#475569';
+      tflLive.title = 'Live updates disabled (Pusher not configured)';
+      return;
+    }
+    tflPusher = new Pusher(cfg.key, { cluster: cfg.cluster });
+    const channel = tflPusher.subscribe(cfg.channel);
+    channel.bind(cfg.event, (payload) => {
+      const ids = String(payload).split('|');
+      // Always refresh our cached list so newly-flagged cameras appear with
+      // up-to-date video URLs the next time the user picks them.
+      tflLoadList();
+      // If the camera we're currently playing was in the update batch,
+      // hot-swap its source without dropping the active WebSocket stream.
+      if (tflSelected && ids.includes(tflSelected.id)) {
+        videoEl.src = tflProxyUrl(tflSelected);
+        videoEl.play().catch(() => {});
+      }
+    });
+    tflLive.style.background = '#22c55e';
+    tflLive.title = 'Live updates active';
+  } catch (e) {
+    console.warn('Pusher subscribe failed:', e);
+  }
+}
+
+btnTfl.addEventListener('click', async () => {
+  tflPicker.style.display = tflPicker.style.display === 'none' ? 'block' : 'none';
+  if (tflPicker.style.display === 'block') {
+    if (camPicker) camPicker.style.display = 'none';
+    if (tflCameras.length === 0) {
+      await tflLoadList();
+      await tflSubscribePusher();
+    }
+  }
+});
+
+tflSearch.addEventListener('input', () => tflFilter(tflSearch.value));
+tflGrid.addEventListener('click', (ev) => {
+  const tile = ev.target.closest('.tfl-tile');
+  if (!tile) return;
+  const idx = Number(tile.dataset.idx);
+  const cam = tflFiltered[idx];
+  if (cam) tflPlay(cam);
+});
+
+// ── Frame capture & send loop ────────────────────────────────────────
+function startSendLoop() {
+  stopSendLoop();
+  const interval = Math.round(1000 / targetFPS);
+  sendInterval = setInterval(captureAndSend, interval);
+}
+
+function stopSendLoop() {
+  if (sendInterval) { clearInterval(sendInterval); sendInterval = null; }
+  awaitingResponse = false;
+}
+
+function restartSendLoop() {
+  if (streamActive && ws?.readyState === WebSocket.OPEN) startSendLoop();
+}
+
+function captureAndSend() {
+  if (!ws || ws.readyState !== WebSocket.OPEN) return;
+  if (videoEl.readyState < 2) return;    // Video not ready
+  // Drop this tick if server hasn't responded to the previous frame yet.
+  // This keeps the box overlay locked to the latest processed frame instead
+  // of letting a backlog of stale frames queue up on a CPU-bound server.
+  if (awaitingResponse) return;
+
+  // Sync canvas size with video dimensions
+  canvas.width  = videoEl.videoWidth  || 640;
+  canvas.height = videoEl.videoHeight || 480;
+
+  // Capture frame to off-screen canvas then encode as JPEG
+  const offscreen = document.createElement('canvas');
+  offscreen.width  = canvas.width;
+  offscreen.height = canvas.height;
+  offscreen.getContext('2d').drawImage(videoEl, 0, 0);
+
+  // Send JPEG at ~70% quality for bandwidth/latency trade-off
+  const b64 = offscreen.toDataURL('image/jpeg', 0.70).split(',')[1];
+  const payload = {
+    image: b64,
+    frame_id: frameId++,
+    vehicle_model:      vehicleModelEl.value      || undefined,
+    lane_model:         laneModelEl.value         || undefined,
+    camera_perspective: cameraPerspectiveEl.value || undefined,
+    camera_source:      cameraSource              || undefined,
+  };
+  if (pendingManualClip) {
+    payload.request_clip = true;
+    pendingManualClip = false;     // server picks it up exactly once
+  }
+  ws.send(JSON.stringify(payload));
+  awaitingResponse = true;
+
+  // Render latest overlay (from previous server response)
+  if (latestResult) renderOverlay(latestResult);
+
+  // FPS counter
+  frameCount++;
+  const now = performance.now();
+  if (now - fpsTimer >= 1000) {
+    metricFPS.textContent = frameCount;
+    frameCount = 0;
+    fpsTimer = now;
+  }
+}
+
+// ── Mask overlay helper ──────────────────────────────────────────────
+// Decodes a base64 PNG (binary mask) onto an off-screen canvas, then paints
+// it onto the main overlay canvas using ``source-in`` compositing so the
+// white pixels of the mask take the given colour and everything else is
+// transparent.
+//
+// Images decode asynchronously: if we only drew when the *current* frame's
+// image was ready, we'd skip every other frame and the overlay would flicker
+// (which is exactly what was happening). Instead, we keep the most recently
+// decoded image per (b64, fillStyle) pair and fall back to it while the new
+// frame's image is still decoding — the overlay stays continuous, at the
+// cost of being ~1 frame stale when the server result changes.
+const _maskCache   = new Map();
+const _maskLastImg = new Map();  // keyed by fillStyle ("slot")
+function drawMaskOverlay(b64, fillStyle) {
+  if (!b64) return;
+  const key = fillStyle + ':' + b64.length + ':' + b64.slice(0, 32);
+  let img = _maskCache.get(key);
+  if (!img) {
+    img = new Image();
+    img.src = 'data:image/png;base64,' + b64;
+    _maskCache.set(key, img);
+    if (_maskCache.size > 8) {
+      const firstKey = _maskCache.keys().next().value;
+      _maskCache.delete(firstKey);
+    }
+  }
+  // Prefer the freshly-loaded image; otherwise fall back to the last one we
+  // successfully decoded for this colour slot.
+  if (img.complete && img.naturalWidth) {
+    _maskLastImg.set(fillStyle, img);
+  } else {
+    img = _maskLastImg.get(fillStyle);
+    if (!img) return;                                 // nothing yet
+  }
+
+  // Render onto a scratch canvas, then composite onto the main overlay.
+  const scratch = document.createElement('canvas');
+  scratch.width  = canvas.width;
+  scratch.height = canvas.height;
+  const sctx = scratch.getContext('2d');
+  sctx.drawImage(img, 0, 0, scratch.width, scratch.height);
+  sctx.globalCompositeOperation = 'source-in';
+  sctx.fillStyle = fillStyle;
+  sctx.fillRect(0, 0, scratch.width, scratch.height);
+  ctx.drawImage(scratch, 0, 0);
+}
+
+// ── Overlay rendering ────────────────────────────────────────────────
+function renderOverlay(result) {
+  const cw = canvas.width;
+  const ch = canvas.height;
+  const fw = result.frame_size?.width  || cw;
+  const fh = result.frame_size?.height || ch;
+  const sx = cw / fw;
+  const sy = ch / fh;
+
+  ctx.clearRect(0, 0, cw, ch);
+
+  // Draw vehicle bounding boxes
+  for (const det of (result.vehicles || [])) {
+    const [x1, y1, x2, y2] = det.box;
+    const colour = COLOURS[det.label] || '#ffffff';
+    ctx.strokeStyle = colour;
+    ctx.lineWidth   = 2.5;
+    ctx.strokeRect(x1 * sx, y1 * sy, (x2 - x1) * sx, (y2 - y1) * sy);
+
+    // Label background
+    const label = `${det.label} ${(det.confidence * 100).toFixed(0)}%`;
+    ctx.font = '13px Segoe UI, sans-serif';
+    const tw = ctx.measureText(label).width;
+    ctx.fillStyle = colour + 'cc';
+    ctx.fillRect(x1 * sx, (y1 - 20) * sy, tw + 8, 20 * sy);
+    ctx.fillStyle = '#000';
+    ctx.fillText(label, (x1 + 4) * sx, (y1 - 5) * sy);
+  }
+
+  // Draw drivable-area mask (green tint) and lane-line mask (cyan) as image
+  // overlays. YOLOPv2 produces per-pixel segmentation so we render it as a
+  // tinted image rather than reconstructing polylines.
+  drawMaskOverlay(result.lanes?.drivable_mask_png, 'rgba(34,197,94,0.28)');
+  // Lane-line highlighting: a soft cyan halo underneath a bright yellow core
+  // makes the painted markings clearly visible on both dark asphalt and
+  // bright daylight footage.
+  drawMaskOverlay(result.lanes?.lane_mask_png, 'rgba(56,189,248,0.55)');
+  drawMaskOverlay(result.lanes?.lane_mask_png, 'rgba(253,224,71,0.95)');
+
+  // Draw unsafe behaviour highlights
+  for (const u of (result.unsafe || [])) {
+    if (!u.box) continue;
+    const [x1, y1, x2, y2] = u.box;
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth   = 4;
+    ctx.strokeRect(x1 * sx, y1 * sy, (x2 - x1) * sx, (y2 - y1) * sy);
+    ctx.fillStyle = '#ef4444cc';
+    ctx.font = 'bold 13px Segoe UI, sans-serif';
+    ctx.fillText('⚠ ' + u.behaviour, (x1 + 4) * sx, (y1 - 6) * sy);
+  }
+}
+
+// ── UI updates ────────────────────────────────────────────────────────
+function updateUI(result) {
+  // Latency
+  metricLatency.textContent  = result.latency_ms ?? '–';
+  metricVehicles.textContent = (result.vehicles || []).length;
+  metricLanes.textContent    = result.lanes?.num_lanes ?? 0;
+
+  // Detections list
+  const vehicles = result.vehicles || [];
+  if (vehicles.length === 0) {
+    detList.innerHTML = '<li style="color:#475569;">No vehicles detected</li>';
+  } else {
+    detList.innerHTML = vehicles.map(d =>
+      `<li>
+        <span style="color:${COLOURS[d.label] || '#fff'}">● ${d.label}</span>
+        <span class="conf-badge">${(d.confidence * 100).toFixed(0)}%</span>
+      </li>`
+    ).join('');
+  }
+
+  // Lane info
+  const ln = result.lanes || {};
+  const drivable = ln.drivable_mask_png ? '✓' : '–';
+  laneInfo.innerHTML = `
+    <div style="margin-bottom:6px;">
+      Lane-line components: <strong style="color:#60a5fa;">${ln.num_lanes ?? 0}</strong>
+    </div>
+    <div style="font-size:0.78rem;color:#94a3b8;">Drivable-area mask: ${drivable}</div>
+  `;
+
+  // Alerts
+  const unsafe = result.unsafe || [];
+  if (unsafe.length === 0) {
+    alertsList.innerHTML = '<div class="alert-item clear">✓ No unsafe behaviours detected</div>';
+  } else {
+    alertsList.innerHTML = unsafe.map(u => {
+      const name = (u.behaviour || '').replace(/_/g, ' ');
+      const subj = u.label || u.vehicle || '';
+      const thw  = u.time_headway_s != null ? `headway ${u.time_headway_s}s` : '';
+      const detail = [subj, thw].filter(Boolean).join(' · ');
+      return `<div class="alert-item">⚠ <strong>${name}</strong>${detail ? ' — ' + detail : ''}</div>`;
+    }).join('');
+  }
+}
+
+// ── Model dropdowns ──────────────────────────────────────────────────
+// Populate vehicle/lane detector choices from the server's /models endpoint.
+// Derives the HTTP origin from the WebSocket URL so the page works whether
+// it's served by the RAQIB FastAPI app itself or opened as a local file.
+async function populateModels() {
+  try {
+    const wsUrl = serverUrlEl.value.trim();
+    const httpOrigin = wsUrl.replace(/^ws/, 'http').replace(/\/ws\/stream$/, '');
+    const resp = await fetch(httpOrigin + '/models');
+    if (!resp.ok) return;
+    const cfg = await resp.json();
+    const fill = (sel, group) => {
+      sel.innerHTML = group.choices.map(c =>
+        `<option value="${c}"${c === group.default ? ' selected' : ''}>${c}</option>`
+      ).join('');
+    };
+    fill(vehicleModelEl, cfg.vehicle);
+    fill(laneModelEl,    cfg.lane);
+    if (cfg.perspective) fill(cameraPerspectiveEl, cfg.perspective);
+  } catch (e) { console.warn('Failed to load /models:', e); }
+}
+
+// ── Auth: identity + logout ──────────────────────────────────────────
+async function loadAuthIdentity() {
+  try {
+    const r = await fetch('/auth/status', { credentials: 'same-origin' });
+    if (!r.ok) return;
+    const data = await r.json();
+    if (data.user) {
+      userIdEl.textContent = data.user;
+    } else if (!data.auth_enabled) {
+      userIdEl.textContent = 'auth disabled';
+      userIdEl.style.color = '#f59e0b';
+    }
+  } catch (e) { /* non-fatal */ }
+}
+
+btnLogout.addEventListener('click', async () => {
+  try { await fetch('/logout', { method: 'POST', credentials: 'same-origin' }); }
+  finally { location.href = '/login'; }
+});
+
+// ── Saved violations: fetch list + render tiles ──────────────────────
+let lastSeenClipIds = new Set();
+
+function _formatDate(iso) {
+  // ISO without timezone — display as-is, just prettify the T separator.
+  return (iso || '').replace('T', ' ');
+}
+
+async function fetchViolations(showToastForNew = false) {
+  try {
+    const r = await fetch('/violations', { credentials: 'same-origin' });
+    if (!r.ok) return;
+    const { clips } = await r.json();
+    renderViolations(clips || [], showToastForNew);
+  } catch (e) { console.warn('violations fetch failed:', e); }
+}
+
+function renderViolations(clips, showToastForNew) {
+  if (!clips.length) {
+    violationsListEl.innerHTML =
+      '<div style="font-size:0.82rem;color:#64748b;">No clips saved yet</div>';
+    return;
+  }
+
+  if (showToastForNew) {
+    const newOnes = clips.filter(c => !lastSeenClipIds.has(c.id));
+    if (newOnes.length && lastSeenClipIds.size > 0) {
+      const c = newOnes[0];
+      const thw = c.min_headway_s != null ? `${c.min_headway_s}s headway` : '';
+      violationsToast.textContent = `New violation saved · ${c.camera_name || 'unknown'} ${thw ? '· ' + thw : ''}`;
+      violationsToast.style.display = 'block';
+      setTimeout(() => { violationsToast.style.display = 'none'; }, 5000);
+    }
+  }
+
+  lastSeenClipIds = new Set(clips.map(c => c.id));
+
+  violationsListEl.innerHTML = clips.map(c => {
+    const snap   = c.snapshot ? `/violations/file/${c.snapshot}` : '';
+    const name   = c.camera_name || c.camera_source || 'unknown';
+    const when   = _formatDate(c.created_at);
+    const isManual = c.behaviour === 'manual';
+    const tagHtml  = isManual
+      ? `<span style="background:#92400e;color:#fde68a;padding:1px 6px;border-radius:4px;font-size:0.66rem;margin-left:4px;">MANUAL</span>`
+      : (c.manual_request
+          ? `<span style="background:#7f1d1d;color:#fecaca;padding:1px 6px;border-radius:4px;font-size:0.66rem;margin-left:4px;">EXTENDED</span>`
+          : '');
+    const thwTxt = isManual
+      ? `${c.frames}-frame manual capture`
+      : (c.min_headway_s != null
+          ? `min headway ${c.min_headway_s}s · ${c.frames_flagged}/${c.frames} frames`
+          : `${c.frames_flagged}/${c.frames} frames flagged`);
+    return `
+      <div class="violation-tile" data-id="${c.id}" data-video="${c.video || ''}"
+           data-name="${name.replace(/"/g, '&quot;')}" data-when="${when}"
+           data-thw="${c.min_headway_s ?? ''}">
+        ${snap ? `<img src="${snap}" alt="" onerror="this.style.visibility='hidden'">` : '<div style="width:80px;height:60px;background:#1e293b;border-radius:4px;flex-shrink:0;"></div>'}
+        <div class="meta">
+          <div class="name" title="${name}">${name}${tagHtml}</div>
+          <div class="when">${when}</div>
+          <div class="thw">${thwTxt}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+violationsListEl.addEventListener('click', (ev) => {
+  const tile = ev.target.closest('.violation-tile');
+  if (!tile) return;
+  const video = tile.dataset.video;
+  if (!video) return;
+  const name  = tile.dataset.name || '';
+  const when  = tile.dataset.when || '';
+  const thw   = tile.dataset.thw  || '';
+  violationVideoEl.src = '/violations/file/' + video;
+  violationMetaText.textContent =
+    `${name} · ${when}` + (thw ? ` · min headway ${thw}s` : '');
+  violationModal.classList.add('open');
+  violationModal.setAttribute('aria-hidden', 'false');
+});
+
+function closeVioModal() {
+  violationModal.classList.remove('open');
+  violationModal.setAttribute('aria-hidden', 'true');
+  violationVideoEl.pause();
+  violationVideoEl.src = '';
+}
+violationCloseBtn.addEventListener('click', closeVioModal);
+violationModal.addEventListener('click', (ev) => {
+  if (ev.target === violationModal) closeVioModal();
+});
+document.addEventListener('keydown', (ev) => {
+  if (ev.key === 'Escape' && violationModal.classList.contains('open')) closeVioModal();
+});
+btnRefreshVio.addEventListener('click', () => fetchViolations(false));
+
+// ── Init ─────────────────────────────────────────────────────────────
+setStatus('disconnected');
+loadAuthIdentity();
+populateModels();
+connectWebSocket();
+fetchViolations(false);
+// Periodic refresh — also checks for newly-saved clips so the "toast"
+// fires after the server has flushed its 3-second post-window.
+setInterval(() => fetchViolations(true), 5000);
+</script>
+</body>
+</html>

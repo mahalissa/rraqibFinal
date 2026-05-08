@@ -1,0 +1,58 @@
+# RAQIB — one-command launcher. Requires Docker Desktop / Docker Engine
+# with the NVIDIA Container Toolkit installed on the host (so the container
+# can see the GPU). On first run this will build the image (~8 GB, model
+# weights pre-baked) which takes a few minutes; subsequent `up` calls are
+# instant.
+#
+#   docker compose up --build     # build + run
+#   docker compose up -d          # run in background
+#   docker compose logs -f        # tail logs
+#   docker compose down           # stop + remove container
+#
+# Then open http://localhost:8000 in a browser.
+
+services:
+  raqib:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: raqib-server:latest
+    pull_policy: build
+    container_name: raqib-server
+    ports:
+      - "8000:8000"
+    # Persist downloaded model caches across container rebuilds. Keeps
+    # Ultralytics' config dir + torch.hub's weight cache between runs so
+    # that a `down` / `up` cycle doesn't re-download anything.
+    volumes:
+      - raqib_cache:/root/.cache
+      # Persist saved violation clips across container restarts. Without
+      # this, the gallery is wiped on every `docker compose down`.
+      - ./server/violation_clips:/app/server/violation_clips
+      # Mount .env read-only so the container can read admin credentials,
+      # Pusher keys and TfL config. We deliberately do NOT use compose's
+      # `env_file:` directive here — its loader interpolates `$VAR`
+      # references in values, which corrupts pbkdf2 password hashes
+      # because they contain literal `$` separators. The application's
+      # own _load_env_file() in main.py treats values as literal strings.
+      - ./.env:/app/.env:ro
+      - raqib_ultralytics:/root/.config/Ultralytics
+    # NVIDIA GPU passthrough. Requires nvidia-container-toolkit on the host.
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request, sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3).status == 200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+
+volumes:
+  raqib_cache:
+  raqib_ultralytics:

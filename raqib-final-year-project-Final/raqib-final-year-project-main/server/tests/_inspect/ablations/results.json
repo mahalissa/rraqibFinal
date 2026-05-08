@@ -1,0 +1,435 @@
+{
+  "A_caption_band": {
+    "rows": [
+      {
+        "camera": "Piccadilly Circus",
+        "dets_off": 23,
+        "dets_on": 23,
+        "dets_dropped": 0,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Piccadilly Circus",
+        "dets_off": 33,
+        "dets_on": 33,
+        "dets_dropped": 0,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Piccadilly Circus",
+        "dets_off": 40,
+        "dets_on": 38,
+        "dets_dropped": 2,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Piccadilly Circus",
+        "dets_off": 26,
+        "dets_on": 23,
+        "dets_dropped": 3,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Piccadilly Circus",
+        "dets_off": 19,
+        "dets_on": 16,
+        "dets_dropped": 3,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Elephant & Castle/Walworth Road",
+        "dets_off": 33,
+        "dets_on": 20,
+        "dets_dropped": 13,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Elephant & Castle/Walworth Road",
+        "dets_off": 34,
+        "dets_on": 22,
+        "dets_dropped": 12,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Elephant & Castle/Walworth Road",
+        "dets_off": 32,
+        "dets_on": 20,
+        "dets_dropped": 12,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Elephant & Castle/Walworth Road",
+        "dets_off": 29,
+        "dets_on": 18,
+        "dets_dropped": 11,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Elephant & Castle/Walworth Road",
+        "dets_off": 26,
+        "dets_on": 16,
+        "dets_dropped": 10,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Vauxhall Brd Rd/Drummond Gt",
+        "dets_off": 33,
+        "dets_on": 31,
+        "dets_dropped": 2,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Vauxhall Brd Rd/Drummond Gt",
+        "dets_off": 33,
+        "dets_on": 28,
+        "dets_dropped": 5,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Vauxhall Brd Rd/Drummond Gt",
+        "dets_off": 38,
+        "dets_on": 31,
+        "dets_dropped": 7,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Vauxhall Brd Rd/Drummond Gt",
+        "dets_off": 39,
+        "dets_on": 33,
+        "dets_dropped": 6,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Vauxhall Brd Rd/Drummond Gt",
+        "dets_off": 40,
+        "dets_on": 35,
+        "dets_dropped": 5,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Trafalgar Rd/Greenwich Pk St",
+        "dets_off": 14,
+        "dets_on": 5,
+        "dets_dropped": 9,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Trafalgar Rd/Greenwich Pk St",
+        "dets_off": 20,
+        "dets_on": 11,
+        "dets_dropped": 9,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Trafalgar Rd/Greenwich Pk St",
+        "dets_off": 18,
+        "dets_on": 10,
+        "dets_dropped": 8,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Trafalgar Rd/Greenwich Pk St",
+        "dets_off": 18,
+        "dets_on": 14,
+        "dets_dropped": 4,
+        "flags_off": 0,
+        "flags_on": 0
+      },
+      {
+        "camera": "Trafalgar Rd/Greenwich Pk St",
+        "dets_off": 21,
+        "dets_on": 13,
+        "dets_dropped": 8,
+        "flags_off": 0,
+        "flags_on": 0
+      }
+    ],
+    "total_dets_off": 569,
+    "total_dets_on": 440,
+    "total_dets_dropped": 129,
+    "total_flags_off": 0,
+    "total_flags_on": 0
+  },
+  "B_confidence": {
+    "rows": [
+      {
+        "threshold": 0.15,
+        "raw_dets": 1230,
+        "post_filter": 1043
+      },
+      {
+        "threshold": 0.2,
+        "raw_dets": 911,
+        "post_filter": 743
+      },
+      {
+        "threshold": 0.25,
+        "raw_dets": 705,
+        "post_filter": 565
+      },
+      {
+        "threshold": 0.3,
+        "raw_dets": 569,
+        "post_filter": 440
+      },
+      {
+        "threshold": 0.35,
+        "raw_dets": 458,
+        "post_filter": 349
+      },
+      {
+        "threshold": 0.4,
+        "raw_dets": 375,
+        "post_filter": 279
+      },
+      {
+        "threshold": 0.5,
+        "raw_dets": 248,
+        "post_filter": 183
+      }
+    ]
+  },
+  "C_headway": {
+    "rows": [
+      {
+        "threshold_s": 1.0,
+        "flags": 35
+      },
+      {
+        "threshold_s": 1.5,
+        "flags": 35
+      },
+      {
+        "threshold_s": 2.0,
+        "flags": 35
+      },
+      {
+        "threshold_s": 2.5,
+        "flags": 35
+      },
+      {
+        "threshold_s": 3.0,
+        "flags": 35
+      }
+    ]
+  },
+  "D_streak": {
+    "rows": [
+      {
+        "streak_required": 1,
+        "flags": 4
+      },
+      {
+        "streak_required": 3,
+        "flags": 1
+      }
+    ]
+  },
+  "E_silver_ref": {
+    "rows": [
+      {
+        "model": "yolo11",
+        "tp": 139,
+        "fp": 20,
+        "fn": 143,
+        "precision": 0.874,
+        "recall": 0.493,
+        "f1": 0.63
+      },
+      {
+        "model": "visdrone",
+        "tp": 168,
+        "fp": 272,
+        "fn": 114,
+        "precision": 0.382,
+        "recall": 0.596,
+        "f1": 0.465
+      }
+    ],
+    "iou_threshold": 0.4
+  },
+  "F_latency": {
+    "per_frame": [
+      {
+        "vehicle_ms": 12.37,
+        "lane_ms": 1618.93,
+        "tailgate_ms": 0.04,
+        "lane_viol_ms": 1.75,
+        "total_ms": 1633.08
+      },
+      {
+        "vehicle_ms": 14.52,
+        "lane_ms": 26.2,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.05,
+        "total_ms": 40.8
+      },
+      {
+        "vehicle_ms": 13.33,
+        "lane_ms": 26.42,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.05,
+        "total_ms": 39.83
+      },
+      {
+        "vehicle_ms": 13.3,
+        "lane_ms": 26.62,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.04,
+        "total_ms": 39.99
+      },
+      {
+        "vehicle_ms": 11.21,
+        "lane_ms": 28.12,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.04,
+        "total_ms": 39.4
+      },
+      {
+        "vehicle_ms": 11.23,
+        "lane_ms": 28.26,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.06,
+        "total_ms": 39.59
+      },
+      {
+        "vehicle_ms": 11.54,
+        "lane_ms": 26.55,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.05,
+        "total_ms": 38.16
+      },
+      {
+        "vehicle_ms": 13.46,
+        "lane_ms": 11.36,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.05,
+        "total_ms": 24.88
+      },
+      {
+        "vehicle_ms": 16.06,
+        "lane_ms": 17.91,
+        "tailgate_ms": 0.04,
+        "lane_viol_ms": 0.08,
+        "total_ms": 34.09
+      },
+      {
+        "vehicle_ms": 9.39,
+        "lane_ms": 10.9,
+        "tailgate_ms": 0.02,
+        "lane_viol_ms": 0.05,
+        "total_ms": 20.36
+      },
+      {
+        "vehicle_ms": 9.31,
+        "lane_ms": 10.16,
+        "tailgate_ms": 0.04,
+        "lane_viol_ms": 0.09,
+        "total_ms": 19.59
+      },
+      {
+        "vehicle_ms": 9.4,
+        "lane_ms": 10.41,
+        "tailgate_ms": 0.05,
+        "lane_viol_ms": 0.08,
+        "total_ms": 19.93
+      },
+      {
+        "vehicle_ms": 9.24,
+        "lane_ms": 10.55,
+        "tailgate_ms": 0.04,
+        "lane_viol_ms": 0.08,
+        "total_ms": 19.91
+      },
+      {
+        "vehicle_ms": 8.92,
+        "lane_ms": 10.8,
+        "tailgate_ms": 0.04,
+        "lane_viol_ms": 0.07,
+        "total_ms": 19.82
+      },
+      {
+        "vehicle_ms": 9.28,
+        "lane_ms": 10.1,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.05,
+        "total_ms": 19.47
+      },
+      {
+        "vehicle_ms": 11.5,
+        "lane_ms": 12.36,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.03,
+        "total_ms": 23.92
+      },
+      {
+        "vehicle_ms": 9.23,
+        "lane_ms": 11.36,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.03,
+        "total_ms": 20.65
+      },
+      {
+        "vehicle_ms": 9.73,
+        "lane_ms": 10.68,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.03,
+        "total_ms": 20.47
+      },
+      {
+        "vehicle_ms": 9.45,
+        "lane_ms": 10.26,
+        "tailgate_ms": 0.02,
+        "lane_viol_ms": 0.04,
+        "total_ms": 19.77
+      },
+      {
+        "vehicle_ms": 8.95,
+        "lane_ms": 10.13,
+        "tailgate_ms": 0.03,
+        "lane_viol_ms": 0.03,
+        "total_ms": 19.14
+      }
+    ],
+    "summary": {
+      "vehicle": {
+        "median_ms": 10.47,
+        "mean_ms": 11.07
+      },
+      "lane": {
+        "median_ms": 11.36,
+        "mean_ms": 96.4
+      },
+      "tailgate": {
+        "median_ms": 0.03,
+        "mean_ms": 0.03
+      },
+      "lane_viol": {
+        "median_ms": 0.05,
+        "mean_ms": 0.14
+      },
+      "total": {
+        "median_ms": 22.29,
+        "mean_ms": 107.64
+      }
+    }
+  }
+}
